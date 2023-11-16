@@ -3,7 +3,7 @@ import sys
 from src.exception import CustomException
 from src.logger import logging
 from dataclasses import dataclass
-from src.exception import CustomException
+
 import dill
 import pickle
 
@@ -61,6 +61,11 @@ def load_object(file_path):
     try:
         with open(file_path, "rb") as file_obj:
             return pickle.load(file_obj)
+    
+    except FileNotFoundError:
+        print(f"Error: File not found at path: {file_path}")
+        raise CustomException("File not found", sys)
 
     except Exception as e:
+        print(f"Error during loading object from file: {file_path}\nError details: {e}")
         raise CustomException(e, sys)
